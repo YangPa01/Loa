@@ -160,11 +160,18 @@
             font-weight: 700;
         }
 
+        /* 내용 줄임 처리 (2줄 말줄임) */
         .card p {
             font-size: 13px;
             color: var(--text-muted);
             margin: 0 0 16px 0;
             line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: 39px;
         }
 
         .card .tags {
@@ -174,8 +181,9 @@
             margin-bottom: 16px;
         }
 
-        .card a {
+        .card a, .card button.btn-link {
             display: block;
+            width: 100%;
             text-align: center;
             background: var(--primary-pink-light);
             color: var(--primary-pink-dark);
@@ -186,9 +194,11 @@
             font-weight: 700;
             font-size: 13px;
             transition: all 0.2s ease;
+            box-sizing: border-box;
+            cursor: pointer;
         }
 
-        .card a:hover {
+        .card a:hover, .card button.btn-link:hover {
             background: var(--primary-pink);
             color: #ffffff;
             border-color: var(--primary-pink);
@@ -364,6 +374,58 @@
             font-weight: bold;
             font-size: 12px;
         }
+
+        /* 꿀팁 모달(팝업) 스타일 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            color: var(--primary-pink-dark);
+            font-size: 20px;
+            border-bottom: 2px solid var(--primary-pink-light);
+            padding-bottom: 10px;
+        }
+
+        .modal-content p {
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.6;
+            white-space: pre-line;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 15px 0;
+        }
+
+        .modal-close {
+            background: var(--primary-pink-dark);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            float: right;
+        }
     </style>
 </head>
 <body>
@@ -374,7 +436,7 @@
         </header>
 
         <!-- 검색창 -->
-        <input type="text" id="searchInput" class="search-box" placeholder="검색어 또는 태그 입력 (예: 모코코, 이벤트)..." onkeyup="applyFilters()">
+        <input type="text" id="searchInput" class="search-box" placeholder="검색어 또는 태그 입력 (예: 모코코, 10추)..." onkeyup="applyFilters()">
 
         <!-- 카테고리 필터 버튼 -->
         <div class="category-group" id="categoryGroup">
@@ -608,214 +670,236 @@
 
     </div>
 
-<script>
-    // ★ 기본 데이터 관리 구역
-    const linkData = [
-        // [내실]
-        {
-            title: "모코코 씨앗 지도",
-            category: "내실",
-            desc: "전국 대륙 및 섬의 모코코 씨앗 위치 지도 모음",
-            tags: ["#모코코", "#내실", "#지도"],
-            url: "https://lostark.inven.co.kr/dataninfo/world/"
-        },
-        {
-            title: "퀘스트 정보",
-            category: "내실",
-            desc: "메인, 서브, 에포나 퀘스트 상세 정보",
-            tags: ["#퀘스트", "#내실"],
-            url: "https://lostark.inven.co.kr/dataninfo/quest/"
-        },
-        // [인벤]
-        {
-            title: "인벤 10추 모음",
-            category: "인벤",
-            desc: "로스트아크 인벤 화제의 10추글 게시판 바로가기",
-            tags: ["#인벤", "#10추"],
-            url: "https://www.inven.co.kr/board/lostark/4811?my=chuchu"
-        },
-        {
-            title: "인벤 30추 모음",
-            category: "인벤",
-            desc: "로스트아크 인벤 인기 30추글 게시판 바로가기",
-            tags: ["#인벤", "#30추"],
-            url: "https://www.inven.co.kr/board/lostark/4811?my=chuchu&chuchu=30"
-        },
-        // [직업]
-        {
-            title: "직업 게시판 (인증글/스킬코드)",
-            category: "직업",
-            desc: "직업별 추천 스킬 딜사이클 및 공략 인증글",
-            tags: ["#직업", "#딜사이클", "#스킬코드"],
-            url: "https://www.inven.co.kr/board/lostark/5339"
-        },
-        // [이벤트]
-        {
-            title: "진행 중인 이벤트 (공식)",
-            category: "이벤트",
-            desc: "로스트아크 공식 홈페이지 이벤트 모음페이지",
-            tags: ["#이벤트", "#쿠폰", "#공식"],
-            url: "https://lostark.game.onstove.com/News/Event/Now"
-        }
-    ];
+    <!-- 꿀팁 상세보기 모달 (팝업) -->
+    <div class="modal-overlay" id="tipModal">
+        <div class="modal-content">
+            <h3 id="modalTitle"></h3>
+            <p id="modalContent"></p>
+            <button class="modal-close" onclick="closeModal()">닫기</button>
+        </div>
+    </div>
 
-    let currentCategory = '전체';
+    <script>
+        // ★ 기본 데이터 관리 구역
+        const linkData = [
+            // [내실]
+            {
+                title: "모코코 씨앗 지도",
+                category: "내실",
+                desc: "전국 대륙 및 섬의 모코코 씨앗 위치 지도 모음",
+                tags: ["#모코코", "#내실", "#지도"],
+                url: "https://lostark.inven.co.kr/dataninfo/world/"
+            },
+            {
+                title: "퀘스트 정보",
+                category: "내실",
+                desc: "메인, 서브, 에포나 퀘스트 상세 정보",
+                tags: ["#퀘스트", "#내실"],
+                url: "https://lostark.inven.co.kr/dataninfo/quest/"
+            },
+            // [인벤]
+            {
+                title: "인벤 10추글 모음",
+                category: "인벤",
+                desc: "로스트아크 인벤 화제의 10추글 게시판 바로가기",
+                tags: ["#인벤", "#10추"],
+                url: "https://www.inven.co.kr/board/lostark/4811?my=chuchu"
+            },
+            {
+                title: "인벤 30추글 모음",
+                category: "인벤",
+                desc: "로스트아크 인벤 인기 30추글 게시판 바로가기",
+                tags: ["#인벤", "#30추"],
+                url: "https://www.inven.co.kr/board/lostark/4811?my=chuchu&chuchu=30"
+            },
+            // [직업]
+            {
+                title: "직업 게시판 (인증글/스킬코드)",
+                category: "직업",
+                desc: "직업별 추천 스킬 딜사이클 및 공략 인증글",
+                tags: ["#직업", "#딜사이클", "#스킬코드"],
+                url: "https://www.inven.co.kr/board/lostark/5339"
+            },
+            // [이벤트]
+            {
+                title: "진행 중인 이벤트 (공식)",
+                category: "이벤트",
+                desc: "로스트아크 공식 홈페이지 이벤트 모음페이지",
+                tags: ["#이벤트", "#쿠폰", "#공식"],
+                url: "https://lostark.game.onstove.com/News/Event/Now"
+            }
+        ];
 
-    function selectCategory(cat, btnElement) {
-        currentCategory = cat;
-        
-        document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
-        btnElement.classList.add('active');
+        let currentCategory = '전체';
 
-        applyFilters();
-    }
-
-    // 작성된 꿀팁을 linkData와 동일한 형태의 카드로 변환하는 함수
-    function getCombinedData() {
-        const tips = getStoredTips();
-        const tipCards = tips.map(tip => ({
-            title: tip.title,
-            category: "꿀팁",
-            desc: tip.content,
-            tags: ["#유저꿀팁"],
-            url: null, // 링크가 아닌 직접 작성한 글
-            isTip: true,
-            id: tip.id,
-            date: tip.date
-        }));
-
-        // 기본 정보 + 작성된 꿀팁 합치기
-        return [...linkData, ...tipCards];
-    }
-
-    function applyFilters() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const grid = document.getElementById('linkGrid');
-        const goldSec = document.getElementById('goldSection');
-        const tipSec = document.getElementById('tipSection');
-
-        grid.style.display = 'none';
-        goldSec.style.display = 'none';
-        tipSec.style.display = 'none';
-
-        if (currentCategory === '골드표') {
-            goldSec.style.display = 'flex';
-        } else if (currentCategory === '꿀팁') {
-            tipSec.style.display = 'block';
-            renderTips();
-        } else {
-            grid.style.display = 'grid';
+        function selectCategory(cat, btnElement) {
+            currentCategory = cat;
             
-            // 전체 데이터(기본 링크 + 작성된 꿀팁) 가져오기
-            const allData = getCombinedData();
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
 
-            const filtered = allData.filter(item => {
-                const matchesCategory = (currentCategory === '전체') || (item.category === currentCategory);
-                const matchesSearch = item.title.toLowerCase().includes(query) ||
-                                      item.desc.toLowerCase().includes(query) ||
-                                      item.tags.some(t => t.toLowerCase().includes(query));
-                return matchesCategory && matchesSearch;
+            applyFilters();
+        }
+
+        // 작성된 꿀팁을 카드 형태로 변환하는 함수
+        function getCombinedData() {
+            const tips = getStoredTips();
+            const tipCards = tips.map(tip => ({
+                title: tip.title,
+                category: "꿀팁",
+                desc: tip.content,
+                tags: ["#유저꿀팁"],
+                url: null,
+                isTip: true,
+                id: tip.id,
+                date: tip.date
+            }));
+
+            return [...linkData, ...tipCards];
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const grid = document.getElementById('linkGrid');
+            const goldSec = document.getElementById('goldSection');
+            const tipSec = document.getElementById('tipSection');
+
+            grid.style.display = 'none';
+            goldSec.style.display = 'none';
+            tipSec.style.display = 'none';
+
+            if (currentCategory === '골드표') {
+                goldSec.style.display = 'flex';
+            } else if (currentCategory === '꿀팁') {
+                tipSec.style.display = 'block';
+                renderTips();
+            } else {
+                grid.style.display = 'grid';
+                
+                const allData = getCombinedData();
+
+                const filtered = allData.filter(item => {
+                    const matchesCategory = (currentCategory === '전체') || (item.category === currentCategory);
+                    const matchesSearch = item.title.toLowerCase().includes(query) ||
+                                          item.desc.toLowerCase().includes(query) ||
+                                          item.tags.some(t => t.toLowerCase().includes(query));
+                    return matchesCategory && matchesSearch;
+                });
+
+                renderCards(filtered);
+            }
+        }
+
+        function renderCards(data) {
+            const grid = document.getElementById('linkGrid');
+            grid.innerHTML = '';
+
+            if (data.length === 0) {
+                grid.innerHTML = '<div class="empty-msg">검색 결과가 없습니다.</div>';
+                return;
+            }
+
+            data.forEach(item => {
+                // 꿀팁 카드일 때 [내용 보기] 바로가기 버튼 생성
+                const actionButton = item.isTip 
+                    ? `<button class="btn-link" onclick="openModal(${item.id})">내용 보기</button>`
+                    : `<a href="${item.url}" target="_blank">바로가기</a>`;
+
+                grid.innerHTML += `
+                    <div class="card">
+                        <span class="card-badge">${item.category}</span>
+                        <div>
+                            <h3>${item.title}</h3>
+                            <p>${item.desc}</p>
+                        </div>
+                        <div>
+                            <div class="tags">${item.tags.join(' ')}</div>
+                            ${actionButton}
+                        </div>
+                    </div>
+                `;
             });
-
-            renderCards(filtered);
-        }
-    }
-
-    function renderCards(data) {
-        const grid = document.getElementById('linkGrid');
-        grid.innerHTML = '';
-
-        if (data.length === 0) {
-            grid.innerHTML = '<div class="empty-msg">검색 결과가 없습니다.</div>';
-            return;
         }
 
-        data.forEach(item => {
-            // 작성된 꿀팁 카드일 경우 버튼 동작을 다르게 처리
-            const actionButton = item.isTip 
-                ? `<div style="font-size: 12px; color: #a0a0a0; text-align: right;">작성일: ${item.date}</div>`
-                : `<a href="${item.url}" target="_blank">바로가기</a>`;
+        // --- 꿀팁 모달 팝업 관련 기능 ---
+        function openModal(id) {
+            const tips = getStoredTips();
+            const tip = tips.find(t => t.id === id);
+            if (!tip) return;
 
-            grid.innerHTML += `
-                <div class="card">
-                    <span class="card-badge">${item.category}</span>
-                    <div>
-                        <h3>${item.title}</h3>
-                        <p>${item.desc}</p>
+            document.getElementById('modalTitle').innerText = tip.title;
+            document.getElementById('modalContent').innerText = tip.content;
+            document.getElementById('tipModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('tipModal').style.display = 'none';
+        }
+
+        // --- 꿀팁 게시판 기능 (localStorage 연동) ---
+        function getStoredTips() {
+            const tips = localStorage.getItem('loa_tips');
+            return tips ? JSON.parse(tips) : [];
+        }
+
+        function addTip() {
+            const titleInput = document.getElementById('tipTitle');
+            const contentInput = document.getElementById('tipContent');
+
+            if (!titleInput.value.trim() || !contentInput.value.trim()) {
+                alert('제목과 내용을 모두 입력해주세요.');
+                return;
+            }
+
+            const tips = getStoredTips();
+            const newTip = {
+                id: Date.now(),
+                title: titleInput.value,
+                content: contentInput.value,
+                date: new Date().toLocaleDateString()
+            };
+
+            tips.unshift(newTip);
+            localStorage.setItem('loa_tips', JSON.stringify(tips));
+
+            titleInput.value = '';
+            contentInput.value = '';
+            alert('꿀팁이 등록되었습니다!');
+            renderTips();
+        }
+
+        function deleteTip(id) {
+            if (!confirm('이 꿀팁을 삭제하시겠습니까?')) return;
+            let tips = getStoredTips();
+            tips = tips.filter(tip => tip.id !== id);
+            localStorage.setItem('loa_tips', JSON.stringify(tips));
+            renderTips();
+        }
+
+        function renderTips() {
+            const tipList = document.getElementById('tipList');
+            const tips = getStoredTips();
+
+            if (tips.length === 0) {
+                tipList.innerHTML = '<div class="empty-msg">등록된 꿀팁이 없습니다. 작성해 보세요!</div>';
+                return;
+            }
+
+            tipList.innerHTML = '';
+            tips.forEach(tip => {
+                tipList.innerHTML += `
+                    <div class="tip-item">
+                        <button class="del-btn" onclick="deleteTip(${tip.id})">삭제</button>
+                        <h4>${tip.title}</h4>
+                        <p>${tip.content}</p>
+                        <div class="date">${tip.date}</div>
                     </div>
-                    <div>
-                        <div class="tags">${item.tags.join(' ')}</div>
-                        ${actionButton}
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    // --- 꿀팁 게시판 기능 (localStorage 연동) ---
-    function getStoredTips() {
-        const tips = localStorage.getItem('loa_tips');
-        return tips ? JSON.parse(tips) : [];
-    }
-
-    function addTip() {
-        const titleInput = document.getElementById('tipTitle');
-        const contentInput = document.getElementById('tipContent');
-
-        if (!titleInput.value.trim() || !contentInput.value.trim()) {
-            alert('제목과 내용을 모두 입력해주세요.');
-            return;
+                `;
+            });
         }
 
-        const tips = getStoredTips();
-        const newTip = {
-            id: Date.now(),
-            title: titleInput.value,
-            content: contentInput.value,
-            date: new Date().toLocaleDateString()
-        };
-
-        tips.unshift(newTip);
-        localStorage.setItem('loa_tips', JSON.stringify(tips));
-
-        titleInput.value = '';
-        contentInput.value = '';
-        alert('꿀팁이 등록되었습니다! (전체 탭에서도 확인 가능합니다)');
-        renderTips();
-    }
-
-    function deleteTip(id) {
-        if (!confirm('이 꿀팁을 삭제하시겠습니까?')) return;
-        let tips = getStoredTips();
-        tips = tips.filter(tip => tip.id !== id);
-        localStorage.setItem('loa_tips', JSON.stringify(tips));
-        renderTips();
-    }
-
-    function renderTips() {
-        const tipList = document.getElementById('tipList');
-        const tips = getStoredTips();
-
-        if (tips.length === 0) {
-            tipList.innerHTML = '<div class="empty-msg">등록된 꿀팁이 없습니다. 작성해 보세요!</div>';
-            return;
-        }
-
-        tipList.innerHTML = '';
-        tips.forEach(tip => {
-            tipList.innerHTML += `
-                <div class="tip-item">
-                    <button class="del-btn" onclick="deleteTip(${tip.id})">삭제</button>
-                    <h4>${tip.title}</h4>
-                    <p>${tip.content}</p>
-                    <div class="date">${tip.date}</div>
-                </div>
-            `;
-        });
-    }
-
-    // 초기 실행
-    applyFilters();
-</script>
+        // 초기 실행
+        applyFilters();
+    </script>
 </body>
 </html>
