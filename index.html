@@ -681,222 +681,241 @@
 
     <script>
         // ★ 기본 데이터 관리 구역
-        const linkData = [
-            // [내실]
-            {
-                title: "모코코 씨앗 지도",
-                category: "내실",
-                desc: "전국 대륙 및 섬의 모코코 씨앗 위치 지도 모음",
-                tags: ["#모코코", "#내실", "#지도"],
-                url: "https://lostark.inven.co.kr/dataninfo/world/"
-            },
-            {
-                title: "퀘스트 정보",
-                category: "내실",
-                desc: "메인, 서브, 에포나 퀘스트 상세 정보",
-                tags: ["#퀘스트", "#내실"],
-                url: "https://lostark.inven.co.kr/dataninfo/quest/"
-            },
-            // [인벤]
-            {
-                title: "인벤 10추글 모음",
-                category: "인벤",
-                desc: "로스트아크 인벤 화제의 10추글 게시판 바로가기",
-                tags: ["#인벤", "#10추"],
-                url: "https://www.inven.co.kr/board/lostark/4811?my=chuchu"
-            },
-            {
-                title: "인벤 30추글 모음",
-                category: "인벤",
-                desc: "로스트아크 인벤 인기 30추글 게시판 바로가기",
-                tags: ["#인벤", "#30추"],
-                url: "https://www.inven.co.kr/board/lostark/4811?my=chuchu&chuchu=30"
-            },
-            // [직업]
-            {
-                title: "직업 게시판 (인증글/스킬코드)",
-                category: "직업",
-                desc: "직업별 추천 스킬 딜사이클 및 공략 인증글",
-                tags: ["#직업", "#딜사이클", "#스킬코드"],
-                url: "https://www.inven.co.kr/board/lostark/5339"
-            },
-            // [이벤트]
-            {
-                title: "진행 중인 이벤트 (공식)",
-                category: "이벤트",
-                desc: "로스트아크 공식 홈페이지 이벤트 모음페이지",
-                tags: ["#이벤트", "#쿠폰", "#공식"],
-                url: "https://lostark.game.onstove.com/News/Event/Now"
-            }
-        ];
+const linkData = [
+    // [내실]
+    {
+        title: "모코코 씨앗 지도",
+        category: "내실",
+        desc: "전국 대륙 및 섬의 모코코 씨앗 위치 지도 모음",
+        tags: ["#모코코", "#내실", "#지도"],
+        url: "https://lostark.inven.co.kr/dataninfo/world/"
+    },
+    {
+        title: "퀘스트 정보",
+        category: "내실",
+        desc: "메인, 서브, 에포나 퀘스트 상세 정보",
+        tags: ["#퀘스트", "#내실"],
+        url: "https://lostark.inven.co.kr/dataninfo/quest/"
+    },
+    // [인벤]
+    {
+        title: "인벤 10추글 모음",
+        category: "인벤",
+        desc: "로스트아크 인벤 화제의 10추글 게시판 바로가기",
+        tags: ["#인벤", "#10추"],
+        url: "https://www.inven.co.kr/board/lostark/4811?my=chuchu"
+    },
+    {
+        title: "인벤 30추글 모음",
+        category: "인벤",
+        desc: "로스트아크 인벤 인기 30추글 게시판 바로가기",
+        tags: ["#인벤", "#30추"],
+        url: "https://www.inven.co.kr/board/lostark/4811?my=chuchu&chuchu=30"
+    },
+    // [이벤트]
+    {
+        title: "진행 중인 이벤트 (공식)",
+        category: "이벤트",
+        desc: "로스트아크 공식 홈페이지 이벤트 모음페이지",
+        tags: ["#이벤트", "#쿠폰", "#공식"],
+        url: "https://lostark.game.onstove.com/News/Event/Now"
+    },
 
-        let currentCategory = '전체';
+    // ================= [직업 게시판 전체] =================
+    // 슈샤이어 (전사)
+    {
+        title: "버서커",
+        category: "직업",
+        desc: "버서커 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#버서커", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5341"
+    },
+    {
+        title: "디스트로이어",
+        category: "직업",
+        desc: "디스트로이어 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#디스트로이어", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5340"
+    },
+    {
+        title: "워로드",
+        category: "직업",
+        desc: "워로드 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#워로드", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5339"
+    },
+    {
+        title: "홀리나이트",
+        category: "직업",
+        desc: "홀리나이트 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#홀리나이트", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5551"
+    },
+    {
+        title: "슬레이어",
+        category: "직업",
+        desc: "슬레이어 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#슬레이어", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/6030"
+    },
 
-        function selectCategory(cat, btnElement) {
-            currentCategory = cat;
-            
-            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
+    // 아르데타인 (헌터)
+    {
+        title: "데빌헌터",
+        category: "직업",
+        desc: "데빌헌터 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#데빌헌ter", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5344"
+    },
+    {
+        title: "블래스터",
+        category: "직업",
+        desc: "블래스터 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#블래스터", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5343"
+    },
+    {
+        title: "호크아이",
+        category: "직업",
+        desc: "호크아이 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#호크아이", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5342"
+    },
+    {
+        title: "스카우터",
+        category: "직업",
+        desc: "스카우터 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#스카우터", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5632"
+    },
+    {
+        title: "건슬링어",
+        category: "직업",
+        desc: "건슬링어 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#건슬링어", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5707"
+    },
 
-            applyFilters();
-        }
+    // 애니츠 (무도가)
+    {
+        title: "배틀마스터",
+        category: "직업",
+        desc: "배틀마스터 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#배틀마스터", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5347"
+    },
+    {
+        title: "인파이터",
+        category: "직업",
+        desc: "인파이터 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#인파이터", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5346"
+    },
+    {
+        title: "기공사",
+        category: "직업",
+        desc: "기공사 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#기공사", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5345"
+    },
+    {
+        title: "창술사",
+        category: "직업",
+        desc: "창술사 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#창술사", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5434"
+    },
+    {
+        title: "스트라이커",
+        category: "직업",
+        desc: "스트라이커 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#스트라이커", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5714"
+    },
+    {
+        title: "브레이커",
+        category: "직업",
+        desc: "브레이커 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#브레이커", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/6184"
+    },
 
-        // 작성된 꿀팁을 카드 형태로 변환하는 함수
-        function getCombinedData() {
-            const tips = getStoredTips();
-            const tipCards = tips.map(tip => ({
-                title: tip.title,
-                category: "꿀팁",
-                desc: tip.content,
-                tags: ["#유저꿀팁"],
-                url: null,
-                isTip: true,
-                id: tip.id,
-                date: tip.date
-            }));
+    // 로헨델 / 베른 (마법사)
+    {
+        title: "서머너",
+        category: "직업",
+        desc: "서머너 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#서머너", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5350"
+    },
+    {
+        title: "아르카나",
+        category: "직업",
+        desc: "아르카나 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#아르카나", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5349"
+    },
+    {
+        title: "바드",
+        category: "직업",
+        desc: "바드 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#바드", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5348"
+    },
+    {
+        title: "소서리스",
+        category: "직업",
+        desc: "소서리스 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#소서리스", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5770"
+    },
 
-            return [...linkData, ...tipCards];
-        }
+    // 페이튼 (암살자)
+    {
+        title: "블레이드",
+        category: "직업",
+        desc: "블레이드 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#블레이드", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5497"
+    },
+    {
+        title: "데모닉",
+        category: "직업",
+        desc: "데모닉 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#데모닉", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5498"
+    },
+    {
+        title: "리퍼",
+        category: "직업",
+        desc: "리퍼 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#리퍼", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5670"
+    },
+    {
+        title: "소울이터",
+        category: "직업",
+        desc: "소울이터 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#소울이터", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/6105"
+    },
 
-        function applyFilters() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const grid = document.getElementById('linkGrid');
-            const goldSec = document.getElementById('goldSection');
-            const tipSec = document.getElementById('tipSection');
-
-            grid.style.display = 'none';
-            goldSec.style.display = 'none';
-            tipSec.style.display = 'none';
-
-            if (currentCategory === '골드표') {
-                goldSec.style.display = 'flex';
-            } else if (currentCategory === '꿀팁') {
-                tipSec.style.display = 'block';
-                renderTips();
-            } else {
-                grid.style.display = 'grid';
-                
-                const allData = getCombinedData();
-
-                const filtered = allData.filter(item => {
-                    const matchesCategory = (currentCategory === '전체') || (item.category === currentCategory);
-                    const matchesSearch = item.title.toLowerCase().includes(query) ||
-                                          item.desc.toLowerCase().includes(query) ||
-                                          item.tags.some(t => t.toLowerCase().includes(query));
-                    return matchesCategory && matchesSearch;
-                });
-
-                renderCards(filtered);
-            }
-        }
-
-        function renderCards(data) {
-            const grid = document.getElementById('linkGrid');
-            grid.innerHTML = '';
-
-            if (data.length === 0) {
-                grid.innerHTML = '<div class="empty-msg">검색 결과가 없습니다.</div>';
-                return;
-            }
-
-            data.forEach(item => {
-                // 꿀팁 카드일 때 [내용 보기] 바로가기 버튼 생성
-                const actionButton = item.isTip 
-                    ? `<button class="btn-link" onclick="openModal(${item.id})">내용 보기</button>`
-                    : `<a href="${item.url}" target="_blank">바로가기</a>`;
-
-                grid.innerHTML += `
-                    <div class="card">
-                        <span class="card-badge">${item.category}</span>
-                        <div>
-                            <h3>${item.title}</h3>
-                            <p>${item.desc}</p>
-                        </div>
-                        <div>
-                            <div class="tags">${item.tags.join(' ')}</div>
-                            ${actionButton}
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // --- 꿀팁 모달 팝업 관련 기능 ---
-        function openModal(id) {
-            const tips = getStoredTips();
-            const tip = tips.find(t => t.id === id);
-            if (!tip) return;
-
-            document.getElementById('modalTitle').innerText = tip.title;
-            document.getElementById('modalContent').innerText = tip.content;
-            document.getElementById('tipModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('tipModal').style.display = 'none';
-        }
-
-        // --- 꿀팁 게시판 기능 (localStorage 연동) ---
-        function getStoredTips() {
-            const tips = localStorage.getItem('loa_tips');
-            return tips ? JSON.parse(tips) : [];
-        }
-
-        function addTip() {
-            const titleInput = document.getElementById('tipTitle');
-            const contentInput = document.getElementById('tipContent');
-
-            if (!titleInput.value.trim() || !contentInput.value.trim()) {
-                alert('제목과 내용을 모두 입력해주세요.');
-                return;
-            }
-
-            const tips = getStoredTips();
-            const newTip = {
-                id: Date.now(),
-                title: titleInput.value,
-                content: contentInput.value,
-                date: new Date().toLocaleDateString()
-            };
-
-            tips.unshift(newTip);
-            localStorage.setItem('loa_tips', JSON.stringify(tips));
-
-            titleInput.value = '';
-            contentInput.value = '';
-            alert('꿀팁이 등록되었습니다!');
-            renderTips();
-        }
-
-        function deleteTip(id) {
-            if (!confirm('이 꿀팁을 삭제하시겠습니까?')) return;
-            let tips = getStoredTips();
-            tips = tips.filter(tip => tip.id !== id);
-            localStorage.setItem('loa_tips', JSON.stringify(tips));
-            renderTips();
-        }
-
-        function renderTips() {
-            const tipList = document.getElementById('tipList');
-            const tips = getStoredTips();
-
-            if (tips.length === 0) {
-                tipList.innerHTML = '<div class="empty-msg">등록된 꿀팁이 없습니다. 작성해 보세요!</div>';
-                return;
-            }
-
-            tipList.innerHTML = '';
-            tips.forEach(tip => {
-                tipList.innerHTML += `
-                    <div class="tip-item">
-                        <button class="del-btn" onclick="deleteTip(${tip.id})">삭제</button>
-                        <h4>${tip.title}</h4>
-                        <p>${tip.content}</p>
-                        <div class="date">${tip.date}</div>
-                    </div>
-                `;
-            });
-        }
+    // 림레이크 (스페셜리스트)
+    {
+        title: "도화가",
+        category: "직업",
+        desc: "도화가 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#도화가", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5850"
+    },
+    {
+        title: "기상술사",
+        category: "직업",
+        desc: "기상술사 직업 게시판 (스킬코드, 사이클, 공략 모음)",
+        tags: ["#기상술사", "#직업", "#꿀팁", "#스킬코드"],
+        url: "https://www.inven.co.kr/board/lostark/5929"
+    }
+];
 
         // 초기 실행
         applyFilters();
