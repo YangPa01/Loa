@@ -226,7 +226,6 @@
             padding: 20px;
             border: 1px solid var(--border-soft);
             box-shadow: var(--shadow);
-            overflow-x: auto;
         }
 
         .gold-side-container {
@@ -250,21 +249,36 @@
             font-weight: 700;
             color: #d81b60;
             margin-bottom: 15px;
-            text-align: center;
             border-bottom: 2px solid var(--primary-pink-light);
             padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .gold-title .sub-date {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        /* 클리어 골드표 2분할 뷰 설정 */
+        .gold-split-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
         table.gold-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 12px;
             text-align: center;
         }
 
         table.gold-table th, table.gold-table td {
             border: 1px solid #f4d0dc;
-            padding: 8px 6px;
+            padding: 6px 4px;
         }
 
         table.gold-table th {
@@ -276,6 +290,12 @@
         .bg-level { background-color: #fafafa; font-weight: bold; }
         .bg-orange { background-color: #fff3e0; }
         .bg-blue { background-color: #e3f2fd; }
+
+        @media (max-width: 768px) {
+            .gold-split-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
 
         /* 꿀팁 목록 영역 */
         .tip-section {
@@ -514,152 +534,172 @@
         <!-- 2. 골드표 영역 -->
         <div class="gold-section" id="goldSection">
             <div class="gold-table-container">
-                <div class="gold-title">08.05 이후 클리어 골드</div>
-                <table class="gold-table">
-                    <thead>
-                        <tr>
-                            <th>레벨</th>
-                            <th>레이드</th>
-                            <th>골드</th>
-                            <th>합계 (거래가능)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td rowspan="4" class="bg-level">1710</td>
-                            <td class="bg-orange">성당 1단계</td>
-                            <td>30,000</td>
-                            <td rowspan="2">94,000<br>(32,000)</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-blue">4막 노말</td>
-                            <td>27,000</td>
-                        </tr>
-                        <tr>
-                            <td>종막 노말</td>
-                            <td>32,000</td>
-                            <td rowspan="2">91,000<br>(45,500)</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-blue">세르카 노말</td>
-                            <td>32,000</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="4" class="bg-level">1720</td>
-                            <td class="bg-orange">성당 2단계</td>
-                            <td>40,000</td>
-                            <td rowspan="2">110,000<br>(54,000)</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-blue">4막 하드</td>
-                            <td>38,000</td>
-                        </tr>
-                        <tr>
-                            <td>종막 노말</td>
-                            <td>32,000</td>
-                            <td rowspan="2">102,000<br>(70,000)</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-blue">세르카 노말</td>
-                            <td>32,000</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="4" class="bg-level">1730</td>
-                            <td class="bg-orange">성당 2단계</td>
-                            <td>40,000</td>
-                            <td rowspan="2">132,000<br>(92,000)</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-blue">4막 하드</td>
-                            <td>38,000</td>
-                        </tr>
-                        <tr>
-                            <td>종막 하드</td>
-                            <td>48,000</td>
-                            <td rowspan="2">130,000</td>
-                        </tr>
-                        <tr>
-                            <td>세르카 하드</td>
-                            <td>44,000</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="4" class="bg-level">1740</td>
-                            <td class="bg-orange">성당 2단계</td>
-                            <td>40,000</td>
-                            <td rowspan="2">142,000<br>(102,000)</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-blue">4막 하드</td>
-                            <td>38,000</td>
-                        </tr>
-                        <tr>
-                            <td>종막 하드</td>
-                            <td>48,000</td>
-                            <td rowspan="2">140,000</td>
-                        </tr>
-                        <tr>
-                            <td>세르카 나메</td>
-                            <td>54,000</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="4" class="bg-level">1750</td>
-                            <td class="bg-orange">성당 3단계</td>
-                            <td>50,000</td>
-                            <td rowspan="2">154,000<br>(104,000)</td>
-                        </tr>
-                        <tr>
-                            <td>종막 하드</td>
-                            <td>48,000</td>
-                        </tr>
-                        <tr>
-                            <td>세르카 나메</td>
-                            <td>54,000</td>
-                            <td rowspan="2">152,000</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-blue">벨가 노말</td>
-                            <td>50,000</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="4" class="bg-level">1770</td>
-                            <td class="bg-orange">성당 3단계</td>
-                            <td>50,000</td>
-                            <td rowspan="2">166,000<br>(116,000)</td>
-                        </tr>
-                        <tr>
-                            <td>종막 하드</td>
-                            <td>48,000</td>
-                        </tr>
-                        <tr>
-                            <td>세르카 나메</td>
-                            <td>54,000</td>
-                            <td rowspan="2">164,000</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-blue">벨가 하드</td>
-                            <td>62,000</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="4" class="bg-level">1780</td>
-                            <td class="bg-orange">성당 3단계</td>
-                            <td>50,000</td>
-                            <td rowspan="2">179,000<br>(129,000)</td>
-                        </tr>
-                        <tr>
-                            <td>종막 하드</td>
-                            <td>48,000</td>
-                        </tr>
-                        <tr>
-                            <td>세르카 나메</td>
-                            <td>54,000</td>
-                            <td rowspan="2">177,000</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-blue">벨가 나메</td>
-                            <td>75,000</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="gold-title">
+                    <span>클리어 골드표</span>
+                    <span class="sub-date">08. 05. 기준</span>
+                </div>
+                <div class="gold-split-wrapper">
+                    <!-- 분할 표 1: 레벨 1710 ~ 1730 -->
+                    <table class="gold-table">
+                        <thead>
+                            <tr>
+                                <th>레벨</th>
+                                <th>레이드</th>
+                                <th>골드</th>
+                                <th>합계 (거래가능)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="4" class="bg-level">1710</td>
+                                <td class="bg-orange">성당 1단계</td>
+                                <td>30,000</td>
+                                <td rowspan="2">94,000<br>(32,000)</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-blue">4막 노말</td>
+                                <td>27,000</td>
+                            </tr>
+                            <tr>
+                                <td>종막 노말</td>
+                                <td>32,000</td>
+                                <td rowspan="2">91,000<br>(45,500)</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-blue">세르카 노말</td>
+                                <td>32,000</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4" class="bg-level">1720</td>
+                                <td class="bg-orange">성당 2단계</td>
+                                <td>40,000</td>
+                                <td rowspan="2">110,000<br>(54,000)</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-blue">4막 하드</td>
+                                <td>38,000</td>
+                            </tr>
+                            <tr>
+                                <td>종막 노말</td>
+                                <td>32,000</td>
+                                <td rowspan="2">102,000<br>(70,000)</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-blue">세르카 노말</td>
+                                <td>32,000</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4" class="bg-level">1730</td>
+                                <td class="bg-orange">성당 2단계</td>
+                                <td>40,000</td>
+                                <td rowspan="2">132,000<br>(92,000)</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-blue">4막 하드</td>
+                                <td>38,000</td>
+                            </tr>
+                            <tr>
+                                <td>종막 하드</td>
+                                <td>48,000</td>
+                                <td rowspan="2">130,000</td>
+                            </tr>
+                            <tr>
+                                <td>세르카 하드</td>
+                                <td>44,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- 분할 표 2: 레벨 1740 ~ 1780 -->
+                    <table class="gold-table">
+                        <thead>
+                            <tr>
+                                <th>레벨</th>
+                                <th>레이드</th>
+                                <th>골드</th>
+                                <th>합계 (거래가능)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="4" class="bg-level">1740</td>
+                                <td class="bg-orange">성당 2단계</td>
+                                <td>40,000</td>
+                                <td rowspan="2">142,000<br>(102,000)</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-blue">4막 하드</td>
+                                <td>38,000</td>
+                            </tr>
+                            <tr>
+                                <td>종막 하드</td>
+                                <td>48,000</td>
+                                <td rowspan="2">140,000</td>
+                            </tr>
+                            <tr>
+                                <td>세르카 나메</td>
+                                <td>54,000</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4" class="bg-level">1750</td>
+                                <td class="bg-orange">성당 3단계</td>
+                                <td>50,000</td>
+                                <td rowspan="2">154,000<br>(104,000)</td>
+                            </tr>
+                            <tr>
+                                <td>종막 하드</td>
+                                <td>48,000</td>
+                            </tr>
+                            <tr>
+                                <td>세르카 나메</td>
+                                <td>54,000</td>
+                                <td rowspan="2">152,000</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-blue">벨가 노말</td>
+                                <td>50,000</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4" class="bg-level">1770</td>
+                                <td class="bg-orange">성당 3단계</td>
+                                <td>50,000</td>
+                                <td rowspan="2">166,000<br>(116,000)</td>
+                            </tr>
+                            <tr>
+                                <td>종막 하드</td>
+                                <td>48,000</td>
+                            </tr>
+                            <tr>
+                                <td>세르카 나메</td>
+                                <td>54,000</td>
+                                <td rowspan="2">164,000</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-blue">벨가 하드</td>
+                                <td>62,000</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4" class="bg-level">1780</td>
+                                <td class="bg-orange">성당 3단계</td>
+                                <td>50,000</td>
+                                <td rowspan="2">179,000<br>(129,000)</td>
+                            </tr>
+                            <tr>
+                                <td>종막 하드</td>
+                                <td>48,000</td>
+                            </tr>
+                            <tr>
+                                <td>세르카 나메</td>
+                                <td>54,000</td>
+                                <td rowspan="2">177,000</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-blue">벨가 나메</td>
+                                <td>75,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="gold-side-container">
