@@ -304,12 +304,15 @@
 
         .tip-form input[type="text"], 
         .tip-form input[type="password"], 
-        .tip-form textarea {
+        .tip-form textarea,
+        .edit-input,
+        .edit-textarea {
             padding: 10px 14px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
             outline: none;
             font-family: inherit;
+            box-sizing: border-box;
         }
 
         .tip-form input[type="text"] { flex: 2; }
@@ -398,18 +401,26 @@
             margin-bottom: 20px;
         }
 
-        .view-header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
         .view-title {
             font-size: 24px;
             font-weight: 700;
             color: var(--text-dark);
-            margin: 0;
+            margin: 0 0 8px 0;
+        }
+
+        .edit-input {
+            width: 100%;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .edit-textarea {
+            width: 100%;
+            height: 200px;
+            font-size: 15px;
+            line-height: 1.6;
+            resize: vertical;
         }
 
         .view-meta {
@@ -423,8 +434,8 @@
         }
 
         .btn-action {
-            padding: 6px 14px;
-            border-radius: 6px;
+            padding: 10px 18px;
+            border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
             border: none;
@@ -436,6 +447,10 @@
         .btn-edit:hover { background: #d5d5d5; }
         .btn-delete { background: #ff7043; color: white; }
         .btn-delete:hover { background: #d84315; }
+        .btn-save { background: #4caf50; color: white; }
+        .btn-save:hover { background: #388e3c; }
+        .btn-cancel { background: #9e9e9e; color: white; }
+        .btn-cancel:hover { background: #757575; }
 
         .view-body {
             min-height: 200px;
@@ -728,28 +743,31 @@
         <!-- 4. 꿀팁 전체 화면 뷰어 -->
         <div class="tip-view-section" id="tipViewSection">
             <div class="view-header">
-                <div class="view-header-top">
-                    <h2 class="view-title" id="viewTitle"></h2>
-                    <!-- 우측 상단 수정/삭제 버튼 -->
-                    <div class="action-btns">
-                        <button class="btn-action btn-edit" onclick="editCurrentTip()">수정</button>
-                        <button class="btn-action btn-delete" onclick="deleteCurrentTip()">삭제</button>
-                    </div>
-                </div>
+                <!-- 일반 조회 모드 제목 -->
+                <h2 class="view-title" id="viewTitle"></h2>
+                <!-- 편집 모드 제목 입력란 -->
+                <input type="text" id="editTitleInput" class="edit-input" style="display: none;">
                 <div class="view-meta" id="viewDate"></div>
             </div>
 
             <div class="view-body">
+                <!-- 일반 조회 모드 내용 -->
                 <div id="viewContent"></div>
+                <!-- 편집 모드 내용 입력란 -->
+                <textarea id="editContentInput" class="edit-textarea" style="display: none;"></textarea>
                 <div id="viewImageContainer"></div>
             </div>
 
             <div class="view-footer">
                 <button class="btn-list" onclick="closeTipView()">목록으로</button>
-                <!-- 우측 하단 수정/삭제 버튼 -->
+                <!-- 우측 하단 조작 버튼 그룹 -->
                 <div class="action-btns">
-                    <button class="btn-action btn-edit" onclick="editCurrentTip()">수정</button>
-                    <button class="btn-action btn-delete" onclick="deleteCurrentTip()">삭제</button>
+                    <!-- 일반 조회용 버튼 -->
+                    <button class="btn-action btn-edit" id="btnEdit" onclick="startEditTip()">수정</button>
+                    <button class="btn-action btn-delete" id="btnDelete" onclick="deleteCurrentTip()">삭제</button>
+                    <!-- 편집 모드용 버튼 -->
+                    <button class="btn-action btn-save" id="btnSave" style="display: none;" onclick="saveEditTip()">저장</button>
+                    <button class="btn-action btn-cancel" id="btnCancel" style="display: none;" onclick="cancelEditTip()">취소</button>
                 </div>
             </div>
         </div>
@@ -757,7 +775,7 @@
     </div>
 
     <script>
-        const ADMIN_PASSWORD = "admin1234"; // 관리자 마스터 비밀번호
+        const ADMIN_PASSWORD = "admin1234";
 
         const linkData = [
             { title: "모코코 씨앗 지도", category: "내실", desc: "전국 대륙 및 섬의 모코코 씨앗 위치 지도 모음", tags: ["#모코코", "#내실", "#지도"], url: "https://lostark.inven.co.kr/dataninfo/world/" },
@@ -891,6 +909,7 @@
             if (!tip) return;
 
             currentActiveTipId = id;
+            setEditMode(false); // 조회 모드로 초기화
 
             document.getElementById('viewTitle').innerText = tip.title;
             document.getElementById('viewDate').innerText = '작성일: ' + tip.date;
@@ -915,7 +934,6 @@
             currentActiveTipId = null;
             document.getElementById('tipViewSection').style.display = 'none';
             
-            // 꿀팁 탭에 위치했던 경우 꿀팁 목록으로, 전체 카드에서 진입했던 경우 필터 화면으로 이동
             if (currentCategory === '꿀팁') {
                 document.getElementById('tipSection').style.display = 'block';
             } else {
@@ -979,7 +997,6 @@
             renderTips();
         }
 
-        /* 수정 및 삭제 권한 제어 (작성자/관리자) */
         function verifyAuth(tip) {
             const inputPwd = prompt("글 비밀번호를 입력하세요. (관리자 비밀번호도 사용 가능)");
             if (inputPwd === null) return false;
@@ -990,6 +1007,67 @@
                 alert("비밀번호가 일치하지 않습니다.");
                 return false;
             }
+        }
+
+        /* 편집 모드 뷰 제어 (조회/수정 UI 전환) */
+        function setEditMode(isEdit) {
+            document.getElementById('viewTitle').style.display = isEdit ? 'none' : 'block';
+            document.getElementById('editTitleInput').style.display = isEdit ? 'block' : 'none';
+            
+            document.getElementById('viewContent').style.display = isEdit ? 'none' : 'block';
+            document.getElementById('editContentInput').style.display = isEdit ? 'block' : 'none';
+
+            document.getElementById('btnEdit').style.display = isEdit ? 'none' : 'inline-block';
+            document.getElementById('btnDelete').style.display = isEdit ? 'none' : 'inline-block';
+            document.getElementById('btnSave').style.display = isEdit ? 'inline-block' : 'none';
+            document.getElementById('btnCancel').style.display = isEdit ? 'inline-block' : 'none';
+        }
+
+        /* 동시 수정 모드 진입 */
+        function startEditTip() {
+            if (!currentActiveTipId) return;
+            const tips = getStoredTips();
+            const tip = tips.find(t => t.id === currentActiveTipId);
+
+            if (!tip) return;
+
+            if (verifyAuth(tip)) {
+                document.getElementById('editTitleInput').value = tip.title;
+                document.getElementById('editContentInput').value = tip.content;
+                setEditMode(true);
+            }
+        }
+
+        /* 수정 사항 저장 */
+        function saveEditTip() {
+            if (!currentActiveTipId) return;
+            const newTitle = document.getElementById('editTitleInput').value.trim();
+            const newContent = document.getElementById('editContentInput').value.trim();
+
+            if (!newTitle || !newContent) {
+                alert('제목과 내용을 모두 입력해주세요.');
+                return;
+            }
+
+            let tips = getStoredTips();
+            const tipIndex = tips.findIndex(t => t.id === currentActiveTipId);
+
+            if (tipIndex !== -1) {
+                tips[tipIndex].title = newTitle;
+                tips[tipIndex].content = newContent;
+
+                localStorage.setItem('loa_tips', JSON.stringify(tips));
+                alert('수정되었습니다.');
+
+                // 뷰어 정보 업데이트 및 조회 모드로 전환
+                document.getElementById('viewTitle').innerText = newTitle;
+                document.getElementById('viewContent').innerText = newContent;
+                setEditMode(false);
+            }
+        }
+
+        function cancelEditTip() {
+            setEditMode(false);
         }
 
         function deleteCurrentTip() {
@@ -1007,29 +1085,6 @@
                     closeTipView();
                     renderTips();
                 }
-            }
-        }
-
-        function editCurrentTip() {
-            if (!currentActiveTipId) return;
-            let tips = getStoredTips();
-            const tip = tips.find(t => t.id === currentActiveTipId);
-
-            if (!tip) return;
-
-            if (verifyAuth(tip)) {
-                const newTitle = prompt("수정할 제목을 입력하세요:", tip.title);
-                if (newTitle === null || !newTitle.trim()) return;
-
-                const newContent = prompt("수정할 내용을 입력하세요:", tip.content);
-                if (newContent === null || !newContent.trim()) return;
-
-                tip.title = newTitle;
-                tip.content = newContent;
-
-                localStorage.setItem('loa_tips', JSON.stringify(tips));
-                alert('수정되었습니다.');
-                openTipView(tip.id);
             }
         }
 
