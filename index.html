@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOA ARCHIVE</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #fcf8fa;
+            --container-bg: #ffffff;
+            --primary-pink: #f48fb1;
+            --primary-pink-dark: #e91e63;
+            --primary-pink-light: #fce4ec;
+            --primary-pink-hover: #f06292;
+            --border-color: #f8bbd0;
+            --border-soft: #f4d0dc;
+            --text-dark: #2c2c34;
+            --text-muted: #756a72;
+            --shadow: 0 4px 15px rgba(244, 143, 177, 0.12);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at top, #fff0f5 0%, var(--bg-color) 70%);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: #d81b60;
+            letter-spacing: 1px;
+            margin: 0 0 8px 0;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* 검색창 */
+        .search-box {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 15px;
+            border-radius: 12px;
+            border: 2px solid var(--border-soft);
+            background: #ffffff;
+            color: var(--text-dark);
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 12px rgba(244, 143, 177, 0.3);
+        }
+
+        /* 카테고리 필터 버튼 */
+        .category-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .cat-btn {
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+
+        .cat-btn:hover {
+            border-color: var(--primary-pink);
+            color: var(--primary-pink-dark);
+            background: var(--primary-pink-light);
+        }
+
+        .cat-btn.active {
+            background: linear-gradient(135deg, #f48fb1 0%, #ec407a 100%);
+            color: #ffffff;
+            border-color: transparent;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(236, 64, 122, 0.3);
+        }
+
+        /* 카드 그리드 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--container-bg);
+            border: 1px solid var(--border-soft);
+            border-top: 4px solid var(--primary-pink);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: var(--shadow);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 22px rgba(244, 143, 177, 0.22);
+            border-color: var(--border-color);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--primary-pink-light);
+            color: var(--primary-pink-dark);
+            border: 1px solid var(--border-color);
+            padding: 3px 8px;
+            border-radius: 12px;
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+            font-size: 17px;
+            color: var(--text-dark);
+            padding-right: 60px;
+            line-height: 1.35;
+            font-weight: 700;
+        }
+
+        .card p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0 0 16px 0;
+            line-height: 1.5;
+        }
+
+        .card .tags {
+            font-size: 12px;
+            color: var(--primary-pink-dark);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .card a {
+            display: block;
+            text-align: center;
+            background: var(--primary-pink-light);
+            color: var(--primary-pink-dark);
+            border: 1.5px solid var(--border-color);
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .card a:hover {
+            background: var(--primary-pink);
+            color: #ffffff;
+            border-color: var(--primary-pink);
+            box-shadow: 0 3px 8px rgba(244, 143, 177, 0.4);
+        }
+
+        .empty-msg {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-muted);
+            font-size: 15px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px dashed var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌸 LOA ARCHIVE</h1>
+            <div class="subtitle">로스트아크 주요 공략 및 정보 모음</div>
+        </header>
+
+        <!-- 검색창 -->
+        <input type="text" id="searchInput" class="search-box" placeholder="검색어 또는 태그 입력 (예: 발탄, 각인)..." onkeyup="applyFilters()">
+
+        <!-- 카테고리 필터 버튼 -->
+        <div class="category-group" id="categoryGroup">
+            <button class="cat-btn active" onclick="selectCategory('전체', this)">전체</button>
+            <button class="cat-btn" onclick="selectCategory('레이드', this)">레이드</button>
+            <button class="cat-btn" onclick="selectCategory('직업/육성', this)">직업/육성</button>
+            <button class="cat-btn" onclick="selectCategory('내실', this)">내실</button>
+            <button class="cat-btn" onclick="selectCategory('길드', this)">길드</button>
+        </div>
+
+        <!-- 카드 목록 -->
+        <div class="grid" id="linkGrid"></div>
+    </div>
+
+    <script>
+        // ★ 데이터 관리 구역 (category 항목 추가됨)
+        const linkData = [
+            {
+                title: "발탄 공략 핵심 정리",
+                category: "레이드",
+                desc: "1, 2관문 낙사 구간 및 대피 위치 요약",
+                tags: ["#발탄", "#군단장"],
+                url: "https://lostark.game.onstove.com/"
+            },
+            {
+                title: "전 직업 각인 메타 가이드",
+                category: "직업/육성",
+                desc: "최신 기준 추천 특성비 및 각인 조합 모음",
+                tags: ["#각인", "#특성"],
+                url: "https://lostark.game.onstove.com/"
+            },
+            {
+                title: "도아가 비보 방버블 팁",
+                category: "직업/육성",
+                desc: "서포터 버블 관리 및 케어 순서",
+                tags: ["#도아가", "#서포터"],
+                url: "https://lostark.game.onstove.com/"
+            },
+            {
+                title: "모코코 씨앗 위치지도",
+                category: "내실",
+                desc: "대륙별 모코코 및 수집품 가이드",
+                tags: ["#모코코", "#수집품"],
+                url: "https://lostark.game.onstove.com/"
+            }
+        ];
+
+        let currentCategory = '전체';
+
+        function selectCategory(cat, btnElement) {
+            currentCategory = cat;
+            
+            // 버튼 활성화 스타일 변경
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            
+            const filtered = linkData.filter(item => {
+                const matchesCategory = (currentCategory === '전체') || (item.category === currentCategory);
+                const matchesSearch = item.title.toLowerCase().includes(query) ||
+                                      item.desc.toLowerCase().includes(query) ||
+                                      item.tags.some(t => t.toLowerCase().includes(query));
+                return matchesCategory && matchesSearch;
+            });
+
+            renderCards(filtered);
+        }
+
+        function renderCards(data) {
+            const grid = document.getElementById('linkGrid');
+            grid.innerHTML = '';
+
+            if (data.length === 0) {
+                grid.innerHTML = '<div class="empty-msg">검색 결과가 없습니다.</div>';
+                return;
+            }
+
+            data.forEach(item => {
+                grid.innerHTML += `
+                    <div class="card">
+                        <span class="card-badge">${item.category}</span>
+                        <div>
+                            <h3>${item.title}</h3>
+                            <p>${item.desc}</p>
+                        </div>
+                        <div>
+                            <div class="tags">${item.tags.join(' ')}</div>
+                            <a href="${item.url}" target="_blank">보러가기</a>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // 초기 화면 설정
+        applyFilters();
+    </script>
+</body>
+</html>
