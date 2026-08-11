@@ -13,7 +13,6 @@
             --primary-pink: #f48fb1;
             --primary-pink-dark: #e91e63;
             --primary-pink-light: #fce4ec;
-            --primary-pink-hover: #f06292;
             --border-color: #f8bbd0;
             --border-soft: #f4d0dc;
             --text-dark: #2c2c34;
@@ -32,7 +31,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
         }
 
@@ -79,7 +78,7 @@
         /* 카테고리 필터 버튼 */
         .category-group {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
             margin-bottom: 30px;
             justify-content: center;
@@ -89,7 +88,7 @@
             background: #ffffff;
             border: 1.5px solid var(--border-color);
             color: var(--text-muted);
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 14px;
@@ -112,7 +111,7 @@
             box-shadow: 0 4px 12px rgba(236, 64, 122, 0.3);
         }
 
-        /* 카드 그리드 */
+        /* 일반 카드 그리드 */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -206,6 +205,165 @@
             border-radius: 12px;
             border: 1px dashed var(--border-color);
         }
+
+        /* 골드표 레이아웃 */
+        .gold-section {
+            display: none;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .gold-table-container {
+            flex: 2;
+            min-width: 320px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-soft);
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .gold-side-container {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .gold-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-soft);
+            box-shadow: var(--shadow);
+        }
+
+        .gold-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #d81b60;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-pink-light);
+            padding-bottom: 8px;
+        }
+
+        table.gold-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        table.gold-table th, table.gold-table td {
+            border: 1px solid #f4d0dc;
+            padding: 8px 6px;
+        }
+
+        table.gold-table th {
+            background-color: #fce4ec;
+            color: var(--primary-pink-dark);
+            font-weight: 700;
+        }
+
+        .bg-level { background-color: #fafafa; font-weight: bold; }
+        .bg-orange { background-color: #fff3e0; }
+        .bg-blue { background-color: #e3f2fd; }
+
+        /* 꿀팁 게시판 영역 */
+        .tip-section {
+            display: none;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid var(--border-soft);
+            box-shadow: var(--shadow);
+        }
+
+        .tip-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+            background: var(--primary-pink-light);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .tip-form input, .tip-form textarea {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            outline: none;
+            font-family: inherit;
+        }
+
+        .tip-form textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        .tip-form button {
+            background: var(--primary-pink-dark);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .tip-form button:hover {
+            background: #c2185b;
+        }
+
+        .tip-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tip-item {
+            border: 1px solid var(--border-soft);
+            border-left: 4px solid var(--primary-pink-dark);
+            border-radius: 8px;
+            padding: 15px;
+            background: #fff;
+            position: relative;
+        }
+
+        .tip-item h4 {
+            margin: 0 0 8px 0;
+            color: var(--text-dark);
+            font-size: 16px;
+        }
+
+        .tip-item p {
+            margin: 0 0 8px 0;
+            color: var(--text-muted);
+            font-size: 14px;
+            white-space: pre-line;
+        }
+
+        .tip-item .date {
+            font-size: 11px;
+            color: #a0a0a0;
+        }
+
+        .tip-item .del-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #e57373;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -216,51 +374,288 @@
         </header>
 
         <!-- 검색창 -->
-        <input type="text" id="searchInput" class="search-box" placeholder="검색어 또는 태그 입력 (예: 발탄, 각인)..." onkeyup="applyFilters()">
+        <input type="text" id="searchInput" class="search-box" placeholder="검색어 또는 태그 입력 (예: 모코코, 10추)..." onkeyup="applyFilters()">
 
         <!-- 카테고리 필터 버튼 -->
         <div class="category-group" id="categoryGroup">
             <button class="cat-btn active" onclick="selectCategory('전체', this)">전체</button>
-            <button class="cat-btn" onclick="selectCategory('레이드', this)">레이드</button>
-            <button class="cat-btn" onclick="selectCategory('직업/육성', this)">직업/육성</button>
             <button class="cat-btn" onclick="selectCategory('내실', this)">내실</button>
-            <button class="cat-btn" onclick="selectCategory('길드', this)">길드</button>
+            <button class="cat-btn" onclick="selectCategory('인벤', this)">인벤</button>
+            <button class="cat-btn" onclick="selectCategory('직업', this)">직업</button>
+            <button class="cat-btn" onclick="selectCategory('이벤트', this)">이벤트</button>
+            <button class="cat-btn" onclick="selectCategory('꿀팁', this)">꿀팁</button>
+            <button class="cat-btn" onclick="selectCategory('골드표', this)">골드표</button>
         </div>
 
-        <!-- 카드 목록 -->
+        <!-- 1. 카드 그리드 영역 (기본) -->
         <div class="grid" id="linkGrid"></div>
+
+        <!-- 2. 골드표 영역 -->
+        <div class="gold-section" id="goldSection">
+            <div class="gold-table-container">
+                <div class="gold-title">08.05 이후 클리어 골드</div>
+                <table class="gold-table">
+                    <thead>
+                        <tr>
+                            <th>레벨</th>
+                            <th>레이드</th>
+                            <th>골드</th>
+                            <th>합계 (거래가능)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="4" class="bg-level">1710</td>
+                            <td class="bg-orange">성당 1단계</td>
+                            <td>30,000</td>
+                            <td rowspan="2">94,000<br>(32,000)</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue">4막 노말</td>
+                            <td>27,000</td>
+                        </tr>
+                        <tr>
+                            <td>종막 노말</td>
+                            <td>32,000</td>
+                            <td rowspan="2">91,000<br>(45,500)</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue">세르카 노말</td>
+                            <td>32,000</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4" class="bg-level">1720</td>
+                            <td class="bg-orange">성당 2단계</td>
+                            <td>40,000</td>
+                            <td rowspan="2">110,000<br>(54,000)</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue">4막 하드</td>
+                            <td>38,000</td>
+                        </tr>
+                        <tr>
+                            <td>종막 노말</td>
+                            <td>32,000</td>
+                            <td rowspan="2">102,000<br>(70,000)</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue">세르카 노말</td>
+                            <td>32,000</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4" class="bg-level">1730</td>
+                            <td class="bg-orange">성당 2단계</td>
+                            <td>40,000</td>
+                            <td rowspan="2">132,000<br>(92,000)</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue">4막 하드</td>
+                            <td>38,000</td>
+                        </tr>
+                        <tr>
+                            <td>종막 하드</td>
+                            <td>48,000</td>
+                            <td rowspan="2">130,000</td>
+                        </tr>
+                        <tr>
+                            <td>세르카 하드</td>
+                            <td>44,000</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4" class="bg-level">1740</td>
+                            <td class="bg-orange">성당 2단계</td>
+                            <td>40,000</td>
+                            <td rowspan="2">142,000<br>(102,000)</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue">4막 하드</td>
+                            <td>38,000</td>
+                        </tr>
+                        <tr>
+                            <td>종막 하드</td>
+                            <td>48,000</td>
+                            <td rowspan="2">140,000</td>
+                        </tr>
+                        <tr>
+                            <td>세르카 나메</td>
+                            <td>54,000</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4" class="bg-level">1750</td>
+                            <td class="bg-orange">성당 3단계</td>
+                            <td>50,000</td>
+                            <td rowspan="2">154,000<br>(104,000)</td>
+                        </tr>
+                        <tr>
+                            <td>종막 하드</td>
+                            <td>48,000</td>
+                        </tr>
+                        <tr>
+                            <td>세르카 나메</td>
+                            <td>54,000</td>
+                            <td rowspan="2">152,000</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue">벨가 노말</td>
+                            <td>50,000</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4" class="bg-level">1770</td>
+                            <td class="bg-orange">성당 3단계</td>
+                            <td>50,000</td>
+                            <td rowspan="2">166,000<br>(116,000)</td>
+                        </tr>
+                        <tr>
+                            <td>종막 하드</td>
+                            <td>48,000</td>
+                        </tr>
+                        <tr>
+                            <td>세르카 나메</td>
+                            <td>54,000</td>
+                            <td rowspan="2">164,000</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue">벨가 하드</td>
+                            <td>62,000</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4" class="bg-level">1780</td>
+                            <td class="bg-orange">성당 3단계</td>
+                            <td>50,000</td>
+                            <td rowspan="2">179,000<br>(129,000)</td>
+                        </tr>
+                        <tr>
+                            <td>종막 하드</td>
+                            <td>48,000</td>
+                        </tr>
+                        <tr>
+                            <td>세르카 나메</td>
+                            <td>54,000</td>
+                            <td rowspan="2">177,000</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue">벨가 나메</td>
+                            <td>75,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="gold-side-container">
+                <div class="gold-card">
+                    <div class="gold-title">완갑 단계 & 획득 방법</div>
+                    <table class="gold-table">
+                        <thead>
+                            <tr>
+                                <th>완갑 단계</th>
+                                <th>획득 방법</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0단계</td>
+                                <td>2관 클리어</td>
+                            </tr>
+                            <tr>
+                                <td>10단계 해방</td>
+                                <td>사령의 잔영 x 200<br>or 죽음의 손 x 100</td>
+                            </tr>
+                            <tr>
+                                <td>15단계 해방</td>
+                                <td>사령의 잔영 x 240<br>or 죽음의 손 x 120</td>
+                            </tr>
+                            <tr>
+                                <td>20단계 해방</td>
+                                <td>죽음의 손 x 150</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="gold-card">
+                    <div class="gold-title">재료 개수 (더보기 x)</div>
+                    <table class="gold-table">
+                        <thead>
+                            <tr>
+                                <th>난이도</th>
+                                <th>재료 및 개수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>노말</td>
+                                <td>사령의 잔영 x 30</td>
+                            </tr>
+                            <tr>
+                                <td>하드, 나메</td>
+                                <td>죽음의 손 x 30</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 꿀팁 게시판 영역 -->
+        <div class="tip-section" id="tipSection">
+            <div class="tip-form">
+                <input type="text" id="tipTitle" placeholder="제목을 입력하세요">
+                <textarea id="tipContent" placeholder="자유롭게 팁을 작성하세요!"></textarea>
+                <button onclick="addTip()">꿀팁 등록하기</button>
+            </div>
+            <div class="tip-list" id="tipList"></div>
+        </div>
+
     </div>
 
     <script>
-        // ★ 데이터 관리 구역 (category 항목 추가됨)
+        // ★ 데이터 관리 구역
         const linkData = [
+            // [내실]
             {
-                title: "발탄 공략 핵심 정리",
-                category: "레이드",
-                desc: "1, 2관문 낙사 구간 및 대피 위치 요약",
-                tags: ["#발탄", "#군단장"],
-                url: "https://lostark.game.onstove.com/"
-            },
-            {
-                title: "전 직업 각인 메타 가이드",
-                category: "직업/육성",
-                desc: "최신 기준 추천 특성비 및 각인 조합 모음",
-                tags: ["#각인", "#특성"],
-                url: "https://lostark.game.onstove.com/"
-            },
-            {
-                title: "도아가 비보 방버블 팁",
-                category: "직업/육성",
-                desc: "서포터 버블 관리 및 케어 순서",
-                tags: ["#도아가", "#서포터"],
-                url: "https://lostark.game.onstove.com/"
-            },
-            {
-                title: "모코코 씨앗 위치지도",
+                title: "모코코 씨앗 지도",
                 category: "내실",
-                desc: "대륙별 모코코 및 수집품 가이드",
-                tags: ["#모코코", "#수집품"],
-                url: "https://lostark.game.onstove.com/"
+                desc: "전국 대륙 및 섬의 모코코 씨앗 위치 지도 모음",
+                tags: ["#모코코", "#내실", "#지도"],
+                url: "https://lostark.inven.co.kr/dataninfo/world/"
+            },
+            {
+                title: "퀘스트 정보",
+                category: "내실",
+                desc: "메인, 서브, 에포나 퀘스트 상세 정보",
+                tags: ["#퀘스트", "#내실"],
+                url: "https://lostark.inven.co.kr/dataninfo/quest/"
+            },
+            // [인벤]
+            {
+                title: "인벤 10추글 모음",
+                category: "인벤",
+                desc: "로스트아크 인벤 화제의 10추글 게시판 바로가기",
+                tags: ["#인벤", "#10추"],
+                url: "https://www.inven.co.kr/board/lostark/4811?my=chuchu"
+            },
+            {
+                title: "인벤 30추글 모음",
+                category: "인벤",
+                desc: "로스트아크 인벤 인기 30추글 게시판 바로가기",
+                tags: ["#인벤", "#30추"],
+                url: "https://www.inven.co.kr/board/lostark/4811?my=chuchu&chuchu=30"
+            },
+            // [직업]
+            {
+                title: "직업 게시판 (인증글/스킬코드)",
+                category: "직업",
+                desc: "직업별 추천 스킬 딜사이클 및 공략 인증글",
+                tags: ["#직업", "#딜사이클", "#스킬코드"],
+                url: "https://www.inven.co.kr/board/lostark/5339"
+            },
+            // [이벤트]
+            {
+                title: "진행 중인 이벤트 (공식)",
+                category: "이벤트",
+                desc: "로스트아크 공식 홈페이지 이벤트 모음페이지",
+                tags: ["#이벤트", "#쿠폰", "#공식"],
+                url: "https://lostark.game.onstove.com/News/Event/Now"
             }
         ];
 
@@ -269,7 +664,6 @@
         function selectCategory(cat, btnElement) {
             currentCategory = cat;
             
-            // 버튼 활성화 스타일 변경
             document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
             btnElement.classList.add('active');
 
@@ -278,16 +672,31 @@
 
         function applyFilters() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            
-            const filtered = linkData.filter(item => {
-                const matchesCategory = (currentCategory === '전체') || (item.category === currentCategory);
-                const matchesSearch = item.title.toLowerCase().includes(query) ||
-                                      item.desc.toLowerCase().includes(query) ||
-                                      item.tags.some(t => t.toLowerCase().includes(query));
-                return matchesCategory && matchesSearch;
-            });
+            const grid = document.getElementById('linkGrid');
+            const goldSec = document.getElementById('goldSection');
+            const tipSec = document.getElementById('tipSection');
 
-            renderCards(filtered);
+            // 기본 초기화
+            grid.style.display = 'none';
+            goldSec.style.display = 'none';
+            tipSec.style.display = 'none';
+
+            if (currentCategory === '골드표') {
+                goldSec.style.display = 'flex';
+            } else if (currentCategory === '꿀팁') {
+                tipSec.style.display = 'block';
+                renderTips();
+            } else {
+                grid.style.display = 'grid';
+                const filtered = linkData.filter(item => {
+                    const matchesCategory = (currentCategory === '전체') || (item.category === currentCategory);
+                    const matchesSearch = item.title.toLowerCase().includes(query) ||
+                                          item.desc.toLowerCase().includes(query) ||
+                                          item.tags.some(t => t.toLowerCase().includes(query));
+                    return matchesCategory && matchesSearch;
+                });
+                renderCards(filtered);
+            }
         }
 
         function renderCards(data) {
@@ -309,14 +718,74 @@
                         </div>
                         <div>
                             <div class="tags">${item.tags.join(' ')}</div>
-                            <a href="${item.url}" target="_blank">보러가기</a>
+                            <a href="${item.url}" target="_blank">바로가기</a>
                         </div>
                     </div>
                 `;
             });
         }
 
-        // 초기 화면 설정
+        // --- 꿀팁 게시판 기능 (localStorage 연동) ---
+        function getStoredTips() {
+            const tips = localStorage.getItem('loa_tips');
+            return tips ? JSON.parse(tips) : [];
+        }
+
+        function addTip() {
+            const titleInput = document.getElementById('tipTitle');
+            const contentInput = document.getElementById('tipContent');
+
+            if (!titleInput.value.trim() || !contentInput.value.trim()) {
+                alert('제목과 내용을 모두 입력해주세요.');
+                return;
+            }
+
+            const tips = getStoredTips();
+            const newTip = {
+                id: Date.now(),
+                title: titleInput.value,
+                content: contentInput.value,
+                date: new Date().toLocaleDateString()
+            };
+
+            tips.unshift(newTip);
+            localStorage.setItem('loa_tips', JSON.stringify(tips));
+
+            titleInput.value = '';
+            contentInput.value = '';
+            renderTips();
+        }
+
+        function deleteTip(id) {
+            let tips = getStoredTips();
+            tips = tips.filter(tip => tip.id !== id);
+            localStorage.setItem('loa_tips', JSON.stringify(tips));
+            renderTips();
+        }
+
+        function renderTips() {
+            const tipList = document.getElementById('tipList');
+            const tips = getStoredTips();
+
+            if (tips.length === 0) {
+                tipList.innerHTML = '<div class="empty-msg">등록된 꿀팁이 없습니다. 작성해 보세요!</div>';
+                return;
+            }
+
+            tipList.innerHTML = '';
+            tips.forEach(tip => {
+                tipList.innerHTML += `
+                    <div class="tip-item">
+                        <button class="del-btn" onclick="deleteTip(${tip.id})">삭제</button>
+                        <h4>${tip.title}</h4>
+                        <p>${tip.content}</p>
+                        <div class="date">${tip.date}</div>
+                    </div>
+                `;
+            });
+        }
+
+        // 초기 실행
         applyFilters();
     </script>
 </body>
